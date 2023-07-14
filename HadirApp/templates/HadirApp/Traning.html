@@ -1,0 +1,27 @@
+{% extends 'HadirApp/base.html' %}
+
+{% block main_content %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'Hadir/form.css' %}">
+
+
+<form id="servay-form" action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label for="file">Face Photos<span class="clue"> (clear face photo . 400x400 suggested) </span></label>
+        <input type="file" multiple="multiple" hidden name="images" id="file" accept="image/*" />
+        <label for="file" class="choose"><span class="material-symbols-outlined">image</span>choose
+            image</label>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" id="submit" class="submit-button">
+            Submit
+        </button>
+    </div>
+</form>
+
+
+{% endblock %}

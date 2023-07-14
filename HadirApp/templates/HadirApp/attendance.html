@@ -1,0 +1,113 @@
+{% extends 'HadirApp/base.html'%}
+
+{% block main_content %}
+
+{% load static %}
+
+<head>
+
+    <style>
+        footer{
+            position: fixed;
+        }
+    body {
+        background: #ECF0F1 !important;
+        
+    }
+    #box{
+        padding: 30px;
+    margin: 0 auto 5% auto;
+    height: fit-content;
+    width: 50%;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 30%);
+    }
+    .container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .container button{
+        width: 40%;
+
+    }
+    #image{
+        margin: 20px 0 20px;
+        border: 1.5px dotted black;
+        height: 480px;
+        padding: 5%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    #image:hover{
+        background-color: #f1f1f1;
+        border:1.5px dotted #2a8aca ;
+    }
+    #image h1{
+        color: rgba(0, 0, 0, 0.4);
+    }
+
+    #image label{
+        cursor: pointer;
+    }
+   
+    @media (max-width: 800px) {
+
+#box {
+    width:70%;
+}
+#image{
+    height: 360px;
+
+}
+
+}
+    
+    </style>
+</head>
+
+<body>
+    <h1 style="margin-bottom: 20px;">{{class_name}}-{{class_id}} Attendance</h1>
+<div id="box">
+
+    <div class="container">
+        <h1> Insert a photo of the hall</h1>
+            
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+            <div id="image">
+                <label for="file"><h1>add image from galary <i class="fa-solid fa-users"></i></h1></label>
+                    <input type="file" multiple="multiple" hidden name="Images" id="file" accept="image/*" />
+                    </div>
+                    <button style="margin: auto;"type="submit" name="insert" id="insert">Insert</button>
+                </form>
+            </div> 
+            
+        </div>
+
+        <script>
+            const create = document.getElementById("create");
+            // console.log('si senior');
+            
+            create.addEventListener('click',(event)=>{
+
+            const img = document.querySelector('#qr');
+            const numOfStudents = document.getElementById("numOfStudents").value;
+            console.log(numOfStudents);
+            img.style.opacity = "100";
+            });
+            
+            // function click() {
+           
+            // }
+        </script>
+</body>
+
+</html>
+
+{% endblock %}

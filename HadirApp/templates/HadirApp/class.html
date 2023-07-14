@@ -1,0 +1,293 @@
+{% extends 'HadirApp/base.html' %}
+{% load static %}
+{% block main_content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+
+<style>
+    footer {
+        width: 100%;
+        float: inline-end;
+        position: relative;
+
+    }
+
+
+    .outer {
+        display: flex;
+        list-style-type: none;
+        text-align: center;
+        margin-top: 5vh;
+        padding: 0;
+        justify-content: space-evenly;
+        min-height: 70vh;
+
+    }
+
+    .boxes {
+        display: inline-grid;
+        padding: 5%;
+        height: fit-content;
+        width: 260px;
+        box-shadow: 0 3px 10px rgb(0 0 0 /0.2);
+        transition: 0.4s ease;
+    }
+
+    .boxes:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 2/0.2);
+    }
+
+    .boxes img {
+        padding: 1rem;
+        height: 80px;
+        margin: auto;
+
+    }
+
+    .boxes h3 {
+        font-size: 20px;
+    }
+
+    .boxes p {
+        font-size: 14px;
+        line-height: 1.63;
+
+    }
+
+    .btn {
+        color: white;
+        border: none;
+        outline: none;
+        margin-top: 25px;
+        margin-bottom: 15px;
+        padding: 10px 10px;
+        background: #599dd5;
+        border-radius: 5px;
+        display: inline-block;
+        text-decoration: none;
+        /* width: 100%; */
+
+    }
+
+    .btn p {
+        color: white;
+        font-size: 15px;
+
+    }
+
+    .btn:hover {
+        /* transform: scale(1.03); */
+        color: white;
+        background-color: #1b73bb;
+        /* box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); */
+    }
+
+    #delete {
+        display: flex;
+        margin-bottom: 20vh;
+        justify-content: center;
+    }
+
+    #delete button {
+        margin-top: 15px;
+        background-color: #d55959;
+        color: #fff;
+        border: 1px solid #d55959;
+        border-radius: 5px;
+        width: 40vw;
+    }
+
+    #delete button:hover {
+
+        background-color: #c83a3a;
+    }
+
+    .pup {
+        height: 135%;
+        width: 100%;
+        display: none;
+        position: absolute;
+        inset: 0px;
+        /* or position fixed;  top 0 left 0 width 100% hight 100% */
+        background-color: rgba(0, 0, 0, 0.75);
+        z-index: 1;
+
+
+    }
+
+    .modal {
+        display: block;
+        margin: auto;
+        width: 500px;
+        border: 1px solid rgb(255, 255, 255);
+        background-color: rgb(255, 255, 255);
+        color: rgb(26, 0, 110);
+        padding-top: 10px;
+        border-radius: 0px;
+    }
+
+    button {
+        display: inline;
+        margin: 0;
+    }
+
+
+    .bottons {
+        display: flex;
+        justify-content: end;
+    }
+
+    #close {
+        border-radius: 0px;
+        font-size: 15px;
+        width: -webkit-fill-available;
+        background: rgb(198, 198, 198);
+        box-shadow: -2px 2px 3px #6b6b6b;
+    }
+
+    .modal a {
+        text-decoration: none;
+        width: 100%;
+    }
+
+    #accept {
+        padding: 20px;
+        border-radius: 0px;
+        font-size: 15px;
+        width: -webkit-fill-available;
+        background-color: rgb(216 65 60);
+        color: #fff;
+        box-shadow: 0 2px 2px 1px rgb(130 39 36);
+    }
+
+
+    #accept:hover {
+        background-color: rgb(150, 6, 6);
+    }
+
+    #close:hover {
+        background-color: rgb(176, 176, 176);
+    }
+
+    @media only screen and (max-width: 720px) {
+
+        .outer {
+            display: block;
+
+        }
+
+        .boxes {
+            margin-top: 10%;
+
+
+        }
+
+        .boxes img {
+            width: 30%;
+            height: 69%;
+        }
+
+        .boxes h3 {
+            font-size: initial;
+        }
+
+        #delete button {
+
+            margin-top: 10%;
+        }
+    }
+</style>
+
+<h1>{{currentClass}}</h1>
+<div class="outer">
+
+    <div class="boxes"><img src="{% static 'Hadir/media/add.png' %}" alt="">
+        <h3>Add Students</h3>
+        <br>
+        <p>Add New or exiting students to your class!
+        </p>
+        <a class="btn" href="/Hadir/student_enrollment/{{currentClass.class_name}}-{{currentClass.class_id}}">
+            <p>Add Students</p>
+        </a>
+    </div>
+
+    <div class="boxes"><img src="{% static 'Hadir/media/Take.png' %}" alt="">
+        <h3>Take Attendance</h3>
+        <br>
+        <p>After creating a class, register the class attendance.
+        </p>
+        <a class="btn" href="/Hadir/Classes/{{currentClass.class_name}}-{{currentClass.class_id}}/Attendance">
+            <p>Take Attendance</p>
+        </a>
+    </div>
+
+    <div class="boxes"><img src="{% static 'Hadir/media/dashboard-icon.png' %}" alt="">
+        <h3>View Attendance</h3>
+        <br>
+        <p>You can view the attendance data via the Dashboard!
+        </p>
+        <a class="btn" href="/Hadir/Classes/{{currentClass.class_name}}-{{currentClass.class_id}}/Dashboard">
+            <p>View Class</p>
+        </a>
+    </div>
+
+
+
+</div>
+<div id="delete">
+
+    <button onclick="pop()">Delete Class <i class="fa-solid fa-trash"></i></button>
+
+</div>
+
+
+<div class="pup">
+
+
+    <div style="margin: auto;">
+        <div class="modal">
+
+            <h1>Delete {{class}} class</h1>
+
+            <p style="margin-top: 40px; font-size: 18px; font-weight: 300; margin-bottom:40px ; color: #000; ">
+                All the class content will be deleted!</p>
+
+            <div class="bottons">
+
+                <button id="close" onclick="cancel()">Cancel</button>
+
+                <a id='link' href="{{currentClass.class_name}}-{{currentClass.class_id}}/Delete">
+                    <button id="accept">Delete</button>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<script>
+
+    const pup = document.querySelector(".pup");
+
+    function pop() {
+
+        pup.style.display = "flex";
+
+    }
+
+    function Delete() {
+        pup.style.display = "none";
+        console.log(`accepted`)
+    }
+
+    function cancel() {
+        pup.style.display = "none";
+        console.log(`closed`)
+    }
+</script>
+
+{% endblock %}

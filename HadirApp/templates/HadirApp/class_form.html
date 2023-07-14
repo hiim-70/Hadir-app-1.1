@@ -1,0 +1,134 @@
+{% extends 'HadirApp/base.html' %}
+{% block main_content %}
+
+{% load static %}
+
+<body>
+    <style>
+        footer {
+            width: 100%;
+            float: inline-end;
+            position: fixed;
+
+        }
+
+        /* footer {
+            bottom: auto;
+        } */
+
+        .nav-wrapper {
+            min-height: 100vh;
+        }
+
+        .qrImg {
+            width: fit-content;
+            margin: 5% 0;
+        }
+
+
+
+        @media only screen and (max-width:720px) {
+
+            .form {
+                width: 70%;
+            }
+
+
+        }
+    </style>
+    <div class="container">
+        <h1> Create new class</h1>
+        <div class="info-cont">
+
+            <form class="form" action="Create_class" method="POST">
+                {% csrf_token %}
+                <div id="container"></div>
+                <label for="">Section ID</label>
+                <input type="text" id="classID" name="classID" maxlength="3" required="required">
+
+                {% if IDErr %}
+                <p style="color: brown;">{{ IDErr }}</p>
+                {% endif %}
+
+
+                {% if idErr %}
+                <p style="color: brown;">{{ idErr }}</p>
+                {% endif %}
+
+                <br>
+                <label for="">Course Name</label>
+                <input name="className" id="className" type="text" maxlength="20" required="required">
+
+                {% if nameErr %}
+                <p style="color: brown;">{{ nameErr }}</p>
+                {% endif %}
+
+                <br>
+                <label for="numOfStudents">Number of students</label>
+                <input type="number" name="numOfStudents" id="numOfStudents" min="10" max="100" required="required">
+
+                <br>
+                <button class="Generate" type="button">Generate QR-Code</button>
+
+                <div>
+                    <img style="display: none;" class="qrImg" src="" alt=" " width="256" height="256">
+
+                    <a id="aa" href="" target="_blank"></a>
+                </div>
+
+                <button style="display: none;" class="Create" type="submit">Create Class</button>
+
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        const wrapper = document.querySelector(".container"),
+            classID = wrapper.querySelector("#classID"),
+            className = wrapper.querySelector("#className")
+        createBtn = wrapper.querySelector('.Create'),
+            generateBtn = wrapper.querySelector(".Generate"),
+            qrImg = wrapper.querySelector('.qrImg'),
+            url = wrapper.querySelector('#aa');
+        let preValue;
+
+
+        generateBtn.addEventListener('click', () => {
+
+            if (!classID.value || !className.value) return;
+            qrImg.style.display = 'block'
+            createBtn.style.display = 'block';
+            console.log(className);
+            let qrValue = (className.value + '-' + classID.value).trim();
+            console.log(qrValue);
+            if (!classID.value || preValue === qrValue) return;
+            preValue = qrValue;
+            generateBtn.innerText = "Generating QR Code...";
+            url.href = `http://localhost:8000/Hadir/student_enrollment/${qrValue}`;
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${url.href}`;
+
+            qrImg.addEventListener('load', () => {
+                wrapper.classList.add("active");
+                generateBtn.innerText = 'Generating QR Code...'
+                url.text = "Generated Class Form";
+            });
+
+            url.addEventListener('load', () => {
+
+                wrapper.classList.add("active");
+            })
+        });
+
+        classID.addEventListener("keyup", () => {
+            if (!classID.value.trim()) {
+                wrapper.classList.remove("active");
+                preValue = "";
+            }
+        });
+
+    </script>
+</body>
+
+
+{% endblock %}

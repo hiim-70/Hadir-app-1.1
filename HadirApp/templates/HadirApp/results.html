@@ -1,0 +1,186 @@
+{% extends 'HadirApp/base.html' %}
+
+{% block main_content %}
+
+{% load static %}
+
+<style>
+    footer {
+        position: fixed;
+
+    }
+
+    .pre-container {
+
+        padding: 30px;
+        margin: 7% auto;
+        height: auto;
+        width: 75%;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgb(0 0 0 /0.3);
+    }
+
+    .pre {
+        text-align: center;
+        border-collapse: collapse;
+        margin: 30px auto;
+        height: auto;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        width: 60%;
+        border: 1px solid rgb(0, 38, 128);
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .pre thead tr {
+        background-color: #2a8aca;
+        color: #ffffff;
+    }
+
+    .pre th,
+    .pre td {
+        padding: 12px 15px;
+    }
+
+    .pre tbody tr {
+        border-bottom: 1px solid #000000;
+    }
+
+    /* .pre tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    } */
+
+    .pre tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+    .pre tbody tr.active-row {
+        font-weight: bold;
+        color: #009879;
+    }
+
+    .abs-container {
+        padding: 30px;
+        margin: 0 auto;
+        height: auto;
+        width: 75%;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgb(0 0 0 /0.3);
+    }
+
+    .abs {
+        text-align: center;
+        border-collapse: collapse;
+
+        margin: 30px auto;
+        height: auto;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        width: 90%;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .abs thead tr {
+        background-color: #DC143C;
+        color: #ffffff;
+    }
+
+    .abs th,
+    .abs td {
+        padding: 12px 15px;
+    }
+
+    .abs tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .abs tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .abs tbody tr:last-of-type {
+        border-bottom: 2px solid #DC143C;
+    }
+
+    .abs tbody tr.active-row {
+        font-weight: bold;
+        color: #DC143C;
+    }
+
+    .pre .present {
+        background-color: rgba(92, 240, 136, 0.35);
+
+    }
+
+    .pre .absent {
+        background-color: rgba(240, 92, 92, 0.35);
+
+    }
+
+    @media (max-width: 800px) {
+
+        .pre {
+            width: 90%;
+        }
+
+        .pre-container {
+            margin-top: 15%;
+        }
+    }
+</style>
+<div class="msg">
+    <h1 style="color:#1c29cd;">
+        {{currentClass}}
+        {% for msg in messages %}
+
+        {{msg}}
+
+        {% endfor %}
+    </h1>
+    <h2>
+        {{today}}
+    </h2>
+</div>
+<div class="pre-container" style="overflow: auto">
+    <h1>Attendance Results</h1>
+
+    <table class="pre">
+        <thead>
+            <tr>
+                <th> Name</th>
+                <th>Status</th>
+            </tr>
+
+        </thead>
+        <tbody>
+
+            {% for student in students %}
+
+
+            {% if student in prestudents %}
+            <tr class="present">
+                <td> {{student}}</td>
+                <td>Present<img src="{% static 'Hadir/media/checked.png' %}" style="width: 20px;  padding-left: 10px; ">
+                </td>
+            </tr>
+            {% else %}
+
+            <tr class="absent">
+                <td> {{student}}</td>
+                <td> Absent <img src="{% static 'Hadir/media/red-f.png' %}" style="width: 20px; padding-left: 10px;">
+                </td>
+            </tr>
+            {% endif %}
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+<br>
+<br>
+
+
+{% endblock %}

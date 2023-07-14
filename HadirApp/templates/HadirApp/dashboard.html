@@ -1,0 +1,384 @@
+{% extends 'HadirApp/base.html' %}
+{% block main_content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard </title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+    * {
+      margin: 0;
+      padding: 0;
+      outline: none;
+      border: none;
+      text-decoration: none;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+
+
+    .container {
+      display: flex;
+    }
+
+    /* MAin Section */
+    .main {
+      position: relative;
+      padding: 20px;
+      width: 100%;
+    }
+
+    .main-top i {
+      position: absolute;
+      right: 0;
+      margin: 10px 30px;
+      color: rgb(110, 109, 109);
+      cursor: pointer;
+    }
+
+    .main .users {
+      display: flex;
+      /* justify-content: center; */
+      width: 100%;
+      overflow: auto;
+      white-space: nowrap;
+    }
+
+    .users .card {
+      margin: 15px;
+      background: #fff;
+      text-align: center;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 3px 10px rgb(0 0 0 /0.3);
+      min-width: 250px;
+    }
+
+    .card h4 {
+      margin-top: 10px;
+    }
+
+    .users .card img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      user-select: none;
+    }
+
+    .users .card h3 {
+      text-transform: uppercase;
+    }
+
+    .users .card p {
+      font-size: 12px;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+    }
+
+    .users table {
+      margin: auto;
+    }
+
+    .users .per span {
+      padding: 5px;
+      border-radius: 10px;
+      background: rgb(223, 223, 223);
+    }
+
+    .users td {
+      font-size: 14px;
+      padding: 5px;
+
+    }
+
+    .users .card a {
+      display: flex;
+      margin-top: 15px;
+      justify-content: center;
+      width: 100%;
+      margin-top: 8px;
+      padding: 10px 25px;
+      cursor: pointer;
+      border-radius: 10px;
+      color: #599dd5;
+      background: transparent;
+      border: 1px solid #599dd5;
+      user-select: none;
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    .users .card a:hover {
+      background: #599dd5;
+      color: #fff;
+      transition: 0.25s;
+    }
+
+    /*Attendance List serction  */
+    .attendance {
+      margin-top: 20px;
+      text-transform: capitalize;
+    }
+
+    .attendance-list {
+      /* width: fit-content; */
+      padding: 20px;
+      margin-top: 10px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgb(0 0 0 /0.3);
+    }
+
+
+    .table {
+      border-collapse: collapse;
+      margin: 25px 0;
+      font-size: 15px;
+      min-width: 100%;
+      overflow: hidden;
+      border-radius: 5px 5px 0 0;
+    }
+
+    table thead tr {
+      color: #fff;
+      background: #599dd5;
+      text-align: left;
+      font-weight: bold;
+    }
+
+    .table th,
+    .table td {
+      padding: 25px 15px;
+    }
+
+    .table tbody tr {
+      border-bottom: 1px solid #ddd;
+    }
+
+    .table tbody tr:nth-of-type(odd) {
+      background: #f3f3f3;
+    }
+
+    .table tbody tr:last-of-type {
+      border-bottom: 2px solid #599dd5;
+    }
+
+    .table a {
+      padding: 6px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #d55959;
+      background: transparent;
+      border: 1px solid #d55959;
+      ;
+    }
+
+    .table a:hover {
+      background: #d55959;
+      color: #fff;
+      transition: 0.5rem;
+    }
+
+
+    footer {
+      width: 100%;
+      float: inline-end;
+      position: fixed;
+
+    }
+
+    #empty {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    #empty a {
+      text-decoration: underline;
+
+    }
+
+
+
+    .pup {
+      display: none;
+      position: absolute;
+      inset: 0px;
+      /* or position fixed;  top 0 left 0 width 100% hight 100% */
+      background-color: rgba(0, 0, 0, 0.75);
+      z-index: 1;
+
+
+    }
+
+    .modal {
+      display: block;
+      margin: auto;
+      width: 500px;
+      border: 1px solid rgb(255, 255, 255);
+      background-color: rgb(255, 255, 255);
+      color: rgb(26, 0, 110);
+      padding-top: 10px;
+      border-radius: 0px;
+    }
+
+    button {
+      display: inline;
+      margin: 0;
+    }
+
+
+    .bottons {
+      display: flex;
+      justify-content: end;
+    }
+
+    #close {
+      border-radius: 0px;
+      font-size: 15px;
+      width: -webkit-fill-available;
+      background: rgb(198, 198, 198);
+      box-shadow: -2px 2px 3px #6b6b6b;
+    }
+
+    .modal a {
+      text-decoration: none;
+      width: 100%;
+    }
+
+    #accept {
+      padding: 20px;
+      border-radius: 0px;
+      font-size: 15px;
+      width: -webkit-fill-available;
+      background-color: rgb(216 65 60);
+      color: #fff;
+      box-shadow: 0 2px 2px 1px rgb(130 39 36);
+    }
+
+
+    #accept:hover {
+      background-color: rgb(150, 6, 6);
+    }
+
+    #close:hover {
+      background-color: rgb(176, 176, 176);
+    }
+
+
+
+
+    @media only screen and (max-width:720px) {
+
+      .main .users {
+        display: flex;
+        justify-content: flex-start;
+      }
+
+      .table th,
+      .table td {
+        padding: 10px 1%;
+        text-align: center;
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <section class="main">
+      <div class="main-top">
+        <h1> <strong>{{class_name}}</strong> Attendance Dashboard</h1>
+      </div>
+
+
+      {% if delstudent %}
+
+      <h2 style="color: #d55959;"> Student {{delstudent}} Has been deleted from class</h2>
+      {% endif %}
+
+      {% if students %}
+      <div class="users">
+
+        {% for student in students %}
+
+        <div class="card">
+          <img src="{{student.profilePic.url}}">
+          <h4>{{student.name}}</h4>
+          <p>Student</p>
+          <div class="per">
+
+          </div>
+          <a href="/Hadir/Classes/{{class_name}}-{{class_id}}/{{student.name}}-{{student.student_id}}">Profile</a>
+        </div>
+        {% endfor %}
+
+
+      </div>
+
+      <section class="attendance">
+        <div class="attendance-list">
+          <h1>Attendance List </h1>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID Number</th>
+                <th>Student Name</th>
+                <th>Course</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% for student in students %}
+              <tr>
+                <td>{{student.student_id}}</td>
+                <td>{{student.name}}</td>
+                <td>{{class_name}}</td>
+                <td>{{student.reg_date.year}}/{{student.reg_date.month}}/{{student.reg_date.day}}</td>
+                <td>{{student.reg_date.time}}</td>
+                <td>Active</td>
+                <td> <a href="{{student.name}}-{{student.student_id}}/Delete"> Delete</a></td>
+              </tr>
+
+              {% endfor %}
+
+            </tbody>
+          </table>
+
+
+
+
+        </div>
+
+        {% else %}
+        <div id="empty">
+
+          <h2>No students in this class</h2>
+          <a href="/Hadir/student_enrollment/{{class_name}}-{{class_id}}">Add students</a>
+
+        </div>
+        {% endif %}
+      </section>
+    </section>
+  </div>
+
+
+</body>
+
+</html>
+
+{% endblock %}

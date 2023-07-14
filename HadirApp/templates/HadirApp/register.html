@@ -1,0 +1,112 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="icon" href="{% static '/Hadir/media/logo-pro.png'%}">
+    <link rel="stylesheet" href="{% static 'Hadir/log-reg-style.css' %}">
+    <link rel="stylesheet" href="{% static 'Hadir/main.css' %}">
+
+    <style>
+        footer {
+            position: fixed;
+
+        }
+
+        .nav-wrapper {
+            min-height: 0;
+        }
+
+        #err {
+            color: brown;
+            width: fit-content;
+            font-size: 0.7rem;
+            margin: 0;
+            padding: 0;
+            white-space: break-spaces;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <div class="nav-wrapper">
+            <div class="grad-bar"></div>
+            <nav class="navbar">
+                <a href="/Hadir/"><img src="{% static 'Hadir/media/logo.png' %}"></a>
+                <div class="menu-toggle" id="mobile-menu">
+                    <a class="nav-item" href="register">Register</a>
+                    <a class="nav-item" href="login">Login</a>
+
+
+
+                </div>
+                <ul class="nav no-search">
+
+                    <a class="nav-item" href="register">Register</a>
+                    <a class="nav-item" href="login">Login</a>
+
+                </ul>
+            </nav>
+        </div>
+
+
+        <div id="container">
+
+            <form id="log-form" action="register" method="POST">
+                {% csrf_token %}
+                <div class="box">
+                    <h1>
+                        Register
+                    </h1>
+
+                    <input class="input" type="email" name="email" placeholder="{{form.email.label}}" required
+                        id="id_email">
+
+                    {% if err %}
+
+                    <span id="err" style="color: brown;" id="emailError">{{ err }}</span>
+                    {% endif %}
+
+
+                    <input class="input" type="text" name="username" placeholder="{{form.username.label}}"
+                        maxlength="150" autofocus required id="id_username">
+
+
+                    <input class="input" type="password" name="password1" autocomplete="new-password"
+                        placeholder="{{form.password1.label}}" required id="id_password1">
+
+
+
+                    <input class="input" type="password" name="password2" placeholder="{{form.password2.label}}"
+                        autocomplete="new-password" required id="id_password2">
+
+                    {% if err2 %}
+
+                    <span id="err" style="color: brown; width: fit-content;" id="passError">{{ err2 }}</span>
+                    {% endif %}
+
+                    <button id="subtn" type="submit" value="submit">Register</button>
+
+                    <a href="login">Already a member?</a>
+
+                </div>
+
+
+            </form>
+
+        </div>
+        <footer>
+
+            <p> ©2022
+                Capstone project section (198), All Rights Reserved
+            </p>
+        </footer>
+</body>
+
+</html>

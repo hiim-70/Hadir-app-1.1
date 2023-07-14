@@ -1,0 +1,358 @@
+{% extends 'HadirApp/base.html' %}
+{% block main_content %}
+{% load static %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+
+    footer {
+        position: absolute;
+    }
+
+    #wrapper {
+
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    #profile {
+        width: 50vw;
+        height: 288px;
+        background: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+
+
+    #profile h2 {
+        color: #0e6de3;
+        font-size: 1.3rem;
+        height: fit-content;
+        padding: 10px;
+        white-space: nowrap;
+
+    }
+
+    #img-container {
+
+        width: 40%;
+        height: 100%;
+        float: left;
+        position: relative;
+    }
+
+    #profile img {
+        width: 100%;
+        height: 100%;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
+    #content {
+        width: 60%;
+        height: 100%;
+        float: left;
+        padding-left: 3%;
+        box-sizing: border-box;
+    }
+
+    #content a {
+        text-decoration: none;
+        color: #0e6de3;
+    }
+
+    #content #delete {
+        color: red;
+        text-decoration: none;
+        background-color: transparent;
+        padding: 10px;
+        position: absolute;
+
+        bottom: -6px;
+        right: -4px;
+
+    }
+
+    #profile h4 {
+        font-weight: 600;
+        font-family: 'Times New Roman', Times, serif;
+        padding: 10px;
+    }
+
+    .pup,
+    .absent {
+        width: 100%;
+        display: none;
+        position: absolute;
+        inset: 0px;
+        /* or position fixed;  top 0 left 0 width 100% hight 100% */
+        background-color: rgba(0, 0, 0, 0.75);
+        z-index: 1;
+
+
+    }
+
+    .absent .modal {
+        width: 300px;
+
+    }
+
+    .absent #close {
+        background: #2a8aca;
+
+    }
+
+    .absent #close:hover {
+        background: #1e7cbb;
+
+    }
+
+    .modal {
+        display: block;
+        margin: auto;
+        border: 1px solid rgb(255, 255, 255);
+        background-color: rgb(255, 255, 255);
+        color: rgb(26, 0, 110);
+        padding-top: 10px;
+        border-radius: 0px;
+    }
+
+    #button {
+        display: inline;
+        margin: 0 5px;
+        padding: 7px 7px;
+        font-size: 0.9rem;
+    }
+
+
+    .bottons {
+        display: flex;
+        justify-content: end;
+    }
+
+    #close {
+        display: block;
+        border-radius: 0px;
+        font-size: 15px;
+        width: -webkit-fill-available;
+        background: rgb(198, 198, 198);
+        box-shadow: -2px 2px 3px #6b6b6b;
+    }
+
+    .modal a {
+        text-decoration: none;
+        width: 100%;
+    }
+
+
+    #content .data {
+        font-weight: 600;
+        color: rgb(29, 105, 182);
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        text-align: start;
+        white-space: nowrap;
+        font-size: 14px;
+    }
+
+    #accept {
+        padding: 20px;
+        border-radius: 0px;
+        font-size: 15px;
+        width: -webkit-fill-available;
+        background-color: rgb(216 65 60);
+        color: #fff;
+        box-shadow: 0 2px 2px 1px rgb(130 39 36);
+    }
+
+    .modal h1 {
+        padding: 5px;
+    }
+
+    #accept:hover {
+        background-color: rgb(150, 6, 6);
+    }
+
+    #close:hover {
+        background-color: rgb(176, 176, 176);
+    }
+
+    @media screen and (max-width: 800px) {
+        #wrapper {
+            min-height: fit-content !important;
+
+
+        }
+
+
+        #profile {
+            width: 95vw;
+            height: 240px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        #profile h4 {
+            font-weight: 600;
+            font-family: 'Times New Roman', Times, serif;
+            padding: 3px;
+            font-size: 16px;
+        }
+
+        #profile h2 {
+            color: #0e6de3;
+            height: fit-content;
+            font-size: 1rem;
+            padding: 10px;
+            white-space: nowrap;
+
+        }
+
+        #content .data {
+            font-weight: 600;
+            color: rgb(29, 105, 182);
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            text-align: start;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+    }
+</style>
+
+<div id="wrapper">
+
+    <div id="profile">
+        <div id="img-container">
+
+            <img src="{{student.profilePic.url}}" alt="profile pic" height="128" width="128">
+        </div>
+        <div id="content">
+
+            <div class="head">
+                <h2>{{student.name}}</h2>
+                <h4>student id: <span class="data">{{student.student_id}}</span></h4>
+            </div>
+
+            <h4>Registration date:
+                <span class="data"> {{student.reg_date}} </span>
+            </h4>
+            {% if absence == 0%}
+            <h4>Absence: <span class="data">{{absence}}</span> </h4>
+            {% else %}
+            <h4>Absence: <span class="data">{{absence.counter}}</span> </h4>
+            {% endif %}
+            <h4>Absence Persintage: <span class="data">{{persintage}}% </span></h4>
+            <h4>Dates of absence: <button id="button" onclick="absent()">
+                    <span> <i style="color: #fff; " class=" fa-regular fa-eye"></i></span></button>
+            </h4>
+            <h4>Class: <a href="../{{class}}/Dashboard"> <span class="data">{{class}}</span></a></h4>
+
+            <button onclick="pop()" id="delete" href=""><i class="fa-solid fa-trash"></i></button>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="pup">
+
+
+    <div style="margin: auto;">
+        <div class="modal">
+
+            <h1>Delete {{class}} class</h1>
+
+            <p style="margin-top: 40px; font-size: 18px; font-weight: 300; margin-bottom:40px ; color: #000; ">
+                All the class content will be deleted!</p>
+
+            <div class="bottons">
+
+                <button id="close" onclick="cancel()">Cancel</button>
+
+                <a id='link' href="{{student.name}}-{{student.student_id}}/Delete">
+                    <button id="accept">Delete</button>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="absent">
+
+    <div style="margin: auto;">
+        <div class="modal">
+
+            <h1>Absent dates</h1>
+            <p style="margin-top: 40px; font-size: 18px; font-weight: 300; margin-bottom:40px ; color: #000; ">
+                {% if absence.date %}
+                {% for date in absence.date.all %}
+            <p>{{date}}</p>
+            <br>
+            {%endfor%}
+            {%else%}
+
+            <p> this student has no absence record</p>
+            {% endif %}
+            </p>
+
+
+            <div class="bottons">
+
+                <button id="close" onclick="cancel()">OK</button>
+
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<script>
+
+    const pup = document.querySelector(".pup");
+    const list = document.querySelector(".absent");
+
+    function absent() {
+        list.style.display = "flex";
+
+    }
+
+    function pop() {
+
+        pup.style.display = "flex";
+
+    }
+
+    function Delete() {
+        pup.style.display = "none";
+        list.style.display = "none";
+
+
+        console.log(`accepted`)
+
+    }
+
+    function cancel() {
+        pup.style.display = "none";
+        list.style.display = "none";
+
+        console.log(`closed`)
+    }
+</script>
+
+{% endblock %}

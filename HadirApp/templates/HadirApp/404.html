@@ -1,0 +1,43 @@
+{% extends 'HadirApp/base.html' %}
+
+{% block main_content %}
+
+
+{% load static %}
+
+<style>
+    footer {
+        position: fixed;
+    }
+
+    #err {
+        display: flex;
+        margin: auto;
+    }
+
+    #err404 {
+        margin-top: 1%;
+        color: brown;
+        font-family: cursive;
+    }
+
+    @media only screen and (max-width:720px) {
+        #err {
+            width: 100%;
+            display: flex;
+            margin: auto;
+        }
+
+        #err404 {
+
+            margin-top: 10%;
+        }
+    }
+</style>
+
+<h1 id="err404">404 Page Not Found</h1>
+<img id='err' src="{% static 'Hadir/media/404.png' %}" alt="">
+
+
+
+{% endblock %}
